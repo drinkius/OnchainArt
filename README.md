@@ -1,6 +1,6 @@
-# Basic Sample Hardhat Project
+# OnchainArt NFTs
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+This NFT collection is fully on-chain including the artwork. The NFTs can easily be viewed on any marketplace like OpenSea, all the formats are correct and are parsed correctly
 
 Try running some of the following tasks:
 
