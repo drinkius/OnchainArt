@@ -19,8 +19,8 @@ describe("OnchainArt", function () {
     const onchainArt = await OnchainArt.deploy(
       "OnchainArt",
       "OnchainArt",
-      "TICK",
-      dateTimeLibrary.address,
+      "OnchainArt",
+      // dateTimeLibrary.address,
     );
     await onchainArt.deployed();
   });

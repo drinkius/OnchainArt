@@ -9,10 +9,10 @@ import './libraries/NFTDescriptor.sol';
 import './libraries/BokkyPooBahsDateTimeLibrary.sol';
 // import './interfaces/IBokkyPooBahsDateTimeLibrary.sol';
 import './libraries/HexStrings.sol';
-import './interfaces/IBondStorage.sol';
+import './interfaces/IOnchainNFT.sol';
 import './interfaces/AdminAccess.sol';
 
-contract OnchainArt is NFT, IBondStorage, AdminAccess {
+contract OnchainArt is NFT, IOnchainNFT, AdminAccess {
 
     using SafeERC20 for IERC20;
     using Strings for uint256;
@@ -24,7 +24,7 @@ contract OnchainArt is NFT, IBondStorage, AdminAccess {
     mapping(address => uint[]) public userIds;
     mapping(uint => address) public issuedBy;
     mapping(uint => string) public releaseDates;
-    mapping(uint => uint) public rewards;
+    mapping(uint => string) public svgPaths;
     string public collectionSymbol;
 
     /* ========== CONSTRUCTOR ========== */
@@ -41,7 +41,11 @@ contract OnchainArt is NFT, IBondStorage, AdminAccess {
 
     /* ========== ADMIN FUNCTIONS ========== */
     
-    function mint(address to, uint releaseTimestamp, uint reward) public onlyAdminOrOwner returns(uint tokenId) {
+    function mint(
+        address to, 
+        uint releaseTimestamp, 
+        string calldata svgPath
+    ) public onlyAdminOrOwner returns(uint tokenId) {
         tokenId = _safeMint(to, '');
         userIds[to].push(tokenId);
         issuedBy[tokenId] = msg.sender;
@@ -55,7 +59,7 @@ contract OnchainArt is NFT, IBondStorage, AdminAccess {
                 year.toString()
             )
         );
-        rewards[tokenId] = reward;
+        svgPaths[tokenId] = svgPath;
     }
 
     /* ========== USER FUNCTIONS ========== */
@@ -73,7 +77,7 @@ contract OnchainArt is NFT, IBondStorage, AdminAccess {
                 NFTDescriptor.URIParams({
                     tokenId: tokenId,
                     releaseDate: releaseDates[tokenId],
-                    reward: rewards[tokenId],
+                    svgPath: svgPaths[tokenId],
                     tokenSymbol: collectionSymbol
                 })
             );
