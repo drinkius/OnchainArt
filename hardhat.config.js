@@ -23,10 +23,10 @@ module.exports = {
       url: "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
       accounts: [PRIVATE_KEY],
     },
-    ropsten: {
-      url: "https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+    goerli: {
+      url: "https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
       accounts: [PRIVATE_KEY],
-      gasPrice: 217 * 1e9,
+      // gasPrice: 217 * 1e9,
     },
     mumbai: {
       networkId: 80001,
@@ -48,6 +48,7 @@ module.exports = {
         rinkeby: ETHERSCAN,
         goerli: ETHERSCAN,
         kovan: ETHERSCAN,
+        goerli: ETHERSCAN,
         // ftm
         opera: FTMSCAN,
         ftmTestnet: FTMSCAN,

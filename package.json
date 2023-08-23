@@ -12,7 +12,7 @@
     "hardhat-gas-reporter": "^1.0.8"
   },
   "scripts": {
-    "deploy:ropsten": "hardhat run --network ropsten ./scripts/deployStaking.js"
+    "deploy:goerli": "hardhat run --network goerli ./scripts/deploy.js"
   },
   "dependencies": {
     "dotenv": "^16.0.0"

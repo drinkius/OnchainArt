@@ -6,7 +6,8 @@ import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
 
 import './NFT.sol';
 import './libraries/NFTDescriptor.sol';
-import './interfaces/IBokkyPooBahsDateTimeLibrary.sol';
+import './libraries/BokkyPooBahsDateTimeLibrary.sol';
+// import './interfaces/IBokkyPooBahsDateTimeLibrary.sol';
 import './libraries/HexStrings.sol';
 import './interfaces/IBondStorage.sol';
 import './interfaces/AdminAccess.sol';
@@ -16,17 +17,8 @@ contract OnchainArt is NFT, IBondStorage, AdminAccess {
     using SafeERC20 for IERC20;
     using Strings for uint256;
 
-    address bokkyPooBahsAddress;
-
-    constructor(
-        string memory name_, 
-        string memory symbol_,
-        string memory collectionSymbol_,
-        address bokkyPooBahsAddress_
-    ) NFT(name_, symbol_) {
-        collectionSymbol = collectionSymbol_;
-        bokkyPooBahsAddress = bokkyPooBahsAddress_;
-    }
+    // /* ========== CONSTANTS ========== */
+    // address public bokkyPooBahsAddress;
 
     /* ========== STATE VARIABLES ========== */
     mapping(address => uint[]) public userIds;
@@ -35,16 +27,25 @@ contract OnchainArt is NFT, IBondStorage, AdminAccess {
     mapping(uint => uint) public rewards;
     string public collectionSymbol;
 
-    function userIdsLength(address user) public view returns(uint) {
-        return userIds[user].length;
+    /* ========== CONSTRUCTOR ========== */
+
+    constructor(
+        string memory name_, 
+        string memory symbol_,
+        string memory collectionSymbol_
+        // address bokkyPooBahsAddress_
+    ) NFT(name_, symbol_) {
+        collectionSymbol = collectionSymbol_;
+        // bokkyPooBahsAddress = bokkyPooBahsAddress_;
     }
 
-    /* ========== MUTATIVE FUNCTIONS ========== */
+    /* ========== ADMIN FUNCTIONS ========== */
+    
     function mint(address to, uint releaseTimestamp, uint reward) public onlyAdminOrOwner returns(uint tokenId) {
         tokenId = _safeMint(to, '');
         userIds[to].push(tokenId);
         issuedBy[tokenId] = msg.sender;
-        (uint year, uint month, uint day) = IBokkyPooBahsDateTimeLibrary(bokkyPooBahsAddress).timestampToDate(releaseTimestamp);
+        (uint year, uint month, uint day) = BokkyPooBahsDateTimeLibrary.timestampToDate(releaseTimestamp);
         releaseDates[tokenId] = string(
             abi.encodePacked(
                 day.toString(),
@@ -57,10 +58,14 @@ contract OnchainArt is NFT, IBondStorage, AdminAccess {
         rewards[tokenId] = reward;
     }
 
+    /* ========== USER FUNCTIONS ========== */
+
     function transfer(address to, uint tokenId) public {
         require(ownerOf(tokenId) == msg.sender, "BondStorage: You are not the owner");
         _transfer(msg.sender, to, tokenId);
     }
+
+    /* ========== VIEWS ========== */
 
     function _tokenURI(uint256 tokenId) internal view virtual override returns (string memory) {
         return
@@ -72,5 +77,9 @@ contract OnchainArt is NFT, IBondStorage, AdminAccess {
                     tokenSymbol: collectionSymbol
                 })
             );
+    }
+
+    function userIdsLength(address user) public view returns(uint) {
+        return userIds[user].length;
     }
 }
