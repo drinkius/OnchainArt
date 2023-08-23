@@ -46,7 +46,7 @@ contract OnchainArt is NFT, IOnchainNFT, AdminAccess {
         // uint releaseTimestamp, 
         string calldata svgPath,
         string calldata scale
-    ) public onlyAdminOrOwner returns(uint tokenId) {
+    ) public returns(uint tokenId) {
         tokenId = _safeMint(to, '');
         userIds[to].push(tokenId);
         issuedBy[tokenId] = msg.sender;

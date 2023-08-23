@@ -6,13 +6,16 @@ const dateTimeLibraryEthereum = "0x23d23d8f243e57d0b924bff3a3191078af325101";
 
 const dateTimeLibrary = dateTimeLibraryGoerli;
 
-var currentDescriptorAddressGoerli = "";
-var currentNFTAddressGoerli = "";
+var currentDescriptorAddressGoerli = "0x540F5801bfCd140D20d935359B4C0aa8d479C54c";
+var currentNFTAddressGoerli = "0x912Aa471EDf134fE9E175b27dC40f43511b1f56A";
 
-var currentDescriptorAddress = currentDescriptorAddressGoerli;
-var currentNFTAddress = currentNFTAddressGoerli;
+var currentDescriptorAddressApothem = "0x58F0fa955654e77ca9736Fb9B6BffE065811523A"
+var currentNFTAddressApothem = "0x479c628cc6C557861E630C9575A6eaC2f076AB59"
 
-const verify = false
+var currentDescriptorAddress = "";
+var currentNFTAddress = "";
+
+const verify = true
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -21,7 +24,9 @@ async function main() {
 
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
-  // await mintToken(elvis)
+  // Uncomment if you'd like to just mint, include return, remember to set the addresses above
+  // await mintToken(elvis, elvisScale)
+  // await mintToken(phone, phoneScale)
   // return
 
   /* Unneeded since we don't setup an external library link yet
