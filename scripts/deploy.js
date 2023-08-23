@@ -12,6 +12,8 @@ var currentNFTAddressGoerli = "0x1A7E2fb6f19B10ff28a1b6Fc2Ab1A8916f27B1f3";
 var currentDescriptorAddress = currentDescriptorAddressGoerli;
 var currentNFTAddress = currentNFTAddressGoerli;
 
+const verify = false
+
 async function main() {
   const [deployer] = await ethers.getSigners();
 
@@ -67,7 +69,8 @@ async function main() {
   console.log("Token address:", onchainArt.address);
   currentNFTAddress = onchainArt.address;
 
-  // The delay is necessary to avoid "the address does not have bytecode" error
+  if (verify) {
+    // The delay is necessary to avoid "the address does not have bytecode" error
   await delay(20000);
 
   await hre.run("verify:verify", {
@@ -81,6 +84,7 @@ async function main() {
       NFTDescriptor: currentDescriptorAddress,
     }
   });
+  }
 
   await mintToken()
 }
