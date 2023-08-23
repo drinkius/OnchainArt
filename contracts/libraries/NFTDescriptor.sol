@@ -12,8 +12,8 @@ library NFTDescriptor {
 
     struct URIParams {
         uint256 tokenId;
-        string releaseDate;
         string svgPath;
+        string scale;
         string tokenSymbol;
     }
 
@@ -64,8 +64,8 @@ library NFTDescriptor {
         SVGSupplier.SVGParams memory svgParams =
             SVGSupplier.SVGParams({
                 tokenId: params.tokenId,
-                releaseDate: params.releaseDate,
                 svgPath: params.svgPath,
+                scale: params.scale,
                 tokenSymbol: params.tokenSymbol,
                 color0: toColorHex(uint256(keccak256(abi.encodePacked(address(0), params.tokenId))), 136),
                 color1: toColorHex(uint256(keccak256(abi.encodePacked(address(0), params.tokenId))), 0)

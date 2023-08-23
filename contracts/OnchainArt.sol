@@ -6,7 +6,7 @@ import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
 
 import './NFT.sol';
 import './libraries/NFTDescriptor.sol';
-import './libraries/BokkyPooBahsDateTimeLibrary.sol';
+// import './libraries/BokkyPooBahsDateTimeLibrary.sol';
 // import './interfaces/IBokkyPooBahsDateTimeLibrary.sol';
 import './libraries/HexStrings.sol';
 import './interfaces/IOnchainNFT.sol';
@@ -23,8 +23,8 @@ contract OnchainArt is NFT, IOnchainNFT, AdminAccess {
     /* ========== STATE VARIABLES ========== */
     mapping(address => uint[]) public userIds;
     mapping(uint => address) public issuedBy;
-    mapping(uint => string) public releaseDates;
     mapping(uint => string) public svgPaths;
+    mapping(uint => string) public scales;
     string public collectionSymbol;
 
     /* ========== CONSTRUCTOR ========== */
@@ -43,12 +43,14 @@ contract OnchainArt is NFT, IOnchainNFT, AdminAccess {
     
     function mint(
         address to, 
-        uint releaseTimestamp, 
-        string calldata svgPath
+        // uint releaseTimestamp, 
+        string calldata svgPath,
+        string calldata scale
     ) public onlyAdminOrOwner returns(uint tokenId) {
         tokenId = _safeMint(to, '');
         userIds[to].push(tokenId);
         issuedBy[tokenId] = msg.sender;
+        /* Date removed for now
         (uint year, uint month, uint day) = BokkyPooBahsDateTimeLibrary.timestampToDate(releaseTimestamp);
         releaseDates[tokenId] = string(
             abi.encodePacked(
@@ -59,7 +61,9 @@ contract OnchainArt is NFT, IOnchainNFT, AdminAccess {
                 year.toString()
             )
         );
+        */
         svgPaths[tokenId] = svgPath;
+        scales[tokenId] = scale;
     }
 
     /* ========== USER FUNCTIONS ========== */
@@ -76,8 +80,8 @@ contract OnchainArt is NFT, IOnchainNFT, AdminAccess {
             NFTDescriptor.constructTokenURI(
                 NFTDescriptor.URIParams({
                     tokenId: tokenId,
-                    releaseDate: releaseDates[tokenId],
                     svgPath: svgPaths[tokenId],
+                    scale: scales[tokenId],
                     tokenSymbol: collectionSymbol
                 })
             );

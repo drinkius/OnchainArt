@@ -10,5 +10,10 @@ interface IOnchainNFT is IERC721 {
      * 
      * Accessible by owner only!
      */
-    function mint(address to, uint releaseTimestamp, string calldata svgPath) external returns(uint);
+    function mint(
+        address to, 
+        // uint releaseTimestamp, 
+        string calldata svgPath,
+        string calldata scale
+    ) external returns(uint);
 }

@@ -10,8 +10,8 @@ library SVGSupplier {
 
     struct SVGParams {
         uint256 tokenId;
-        string releaseDate;
         string svgPath;
+        string scale;
         string tokenSymbol;
         string color0;
         string color1;
@@ -108,7 +108,10 @@ library SVGSupplier {
                 /* start SVG path */
                 params.svgPath,
                 /* end SVG path */
-                '" style="fill-rule:evenodd;clip-rule:evenodd;fill:#020203" transform="matrix(1 0 0 1 128 128) scale(0.1,0.1)"/>'
+                '" style="fill-rule:evenodd;clip-rule:evenodd;fill:#020203" transform="matrix(1 0 0 1 128 128) ',
+                'scale(',
+                params.scale,
+                ')"/>'
             )
         );
     }
